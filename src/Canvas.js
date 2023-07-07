@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { AppContext } from './App';
 
 const CanvasWrapper = styled.div`
     position: relative;
@@ -16,14 +17,24 @@ const Block = styled.div`
     opacity: ${(props) => props.o};
     background: green;
     outline: ${(props) => (props.active ? 1 : 0)}px solid #0274ff;
+    cursor: pointer;
 `;
 
 const Canvas = () => {
+    const { elements, selectedElement, setSelectedElement } = useContext(AppContext);
+
     return (
         <CanvasWrapper>
-            <Block x={10} y={10} o={1} active />
-            <Block x={60} y={60} o={0.5} />
-            <Block x={110} y={110} o={1} />
+            {elements.map((element) => (
+                <Block
+                    key={element.id}
+                    x={element.x}
+                    y={element.y}
+                    o={element.o}
+                    active={selectedElement && selectedElement.id === element.id}
+                    onClick={() => setSelectedElement(element)}
+                />
+            ))}
         </CanvasWrapper>
     );
 };
