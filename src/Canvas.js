@@ -15,9 +15,8 @@ const Block = styled.div`
     left: ${(props) => props.x}px;
     top: ${(props) => props.y}px;
     opacity: ${(props) => props.o};
-    background: green;
+    background: ${(props) => props.color};
     outline: ${(props) => (props.active ? 1 : 0)}px solid #0274ff;
-    cursor: pointer;
 `;
 
 const Canvas = () => {
@@ -31,6 +30,7 @@ const Canvas = () => {
                     x={element.x}
                     y={element.y}
                     o={element.o}
+                    color={element.color}
                     active={selectedElement && selectedElement.id === element.id}
                     onClick={() => setSelectedElement(element)}
                 />

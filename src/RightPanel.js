@@ -13,27 +13,62 @@ const Label = styled.label`
 `;
 
 const RightPanel = () => {
-    const { selectedElement } = useContext(AppContext);
+    const { selectedElement, setSelectedElement, elements, setElements } = useContext(AppContext);
 
-    if (!selectedElement) {
-        return <RightPanelWrapper>Select an element to see its properties</RightPanelWrapper>;
-    }
+    const handleElementChange = (prop, value) => {
+        if (selectedElement) {
+            setSelectedElement({ ...selectedElement, [prop]: value });
+            setElements(
+                elements.map((el) => (el.id === selectedElement.id ? { ...selectedElement, [prop]: value } : el))
+            );
+        }
+    };
 
     return (
         <RightPanelWrapper>
-            <Label>
-                X <input type='number' min={0} max={999} value={selectedElement.x} />
-            </Label>
-            <Label>
-                Y <input type='number' min={0} max={999} value={selectedElement.y} />
-            </Label>
-            <Label>
-                O <input type='number' min={0} max={100} value={selectedElement.o * 100} />
-                <input type='range' min={0} max={100} value={selectedElement.o * 100} />
-            </Label>
-            <Label>
-                B <ColorPicker color={selectedElement.color} /> {selectedElement.color}
-            </Label>
+            {selectedElement && (
+                <>
+                    <Label>
+                        X
+                        <input
+                            type='number'
+                            min={0}
+                            max={999}
+                            value={selectedElement.x}
+                            onChange={(e) => handleElementChange('x', parseInt(e.target.value))}
+                        />
+                    </Label>
+                    <Label>
+                        Y
+                        <input
+                            type='number'
+                            min={0}
+                            max={999}
+                            value={selectedElement.y}
+                            onChange={(e) => handleElementChange('y', parseInt(e.target.value))}
+                        />
+                    </Label>
+                    <Label>
+                        O
+                        <input
+                            type='number'
+                            min={0}
+                            max={1}
+                            step={0.1}
+                            value={selectedElement.o}
+                            onChange={(e) => handleElementChange('o', parseFloat(e.target.value))}
+                        />
+                    </Label>
+                    <Label>
+                        B
+                        <ColorPicker
+                            color={selectedElement.color}
+                            onChangeColor={(color) => handleElementChange('color', color)}
+                        />
+                        {selectedElement.color}
+                    </Label>
+                </>
+            )}
         </RightPanelWrapper>
     );
 };

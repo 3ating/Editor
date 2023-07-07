@@ -17,15 +17,18 @@ const ColorInput = styled.input`
 ColorInput.defaultProps = {
     type: 'color',
 };
-const ColorPicker = () => {
+
+const ColorPicker = ({ color, onChangeColor }) => {
     const ref = useRef();
     const inputRef = useRef();
+
     useEffect(() => {
-        ref.current.style.background = inputRef.current.value;
-    }, []);
+        ref.current.style.background = color;
+    }, [color]);
+
     return (
         <ColorPickerWrapper ref={ref}>
-            <ColorInput value='#00FF00' ref={inputRef} />
+            <ColorInput value={color} ref={inputRef} onChange={(e) => onChangeColor(e.target.value)} />
         </ColorPickerWrapper>
     );
 };
