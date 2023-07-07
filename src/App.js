@@ -1,5 +1,6 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 import LeftPanel from './LeftPanel';
 import Canvas from './Canvas';
 import RightPanel from './RightPanel';
@@ -16,17 +17,41 @@ const AppWrapper = styled.div`
 export const AppContext = createContext();
 
 const App = () => {
-    const [elements, setElements] = useState([
-        { id: 1, name: 'Element 1', x: 10, y: 10, o: 1, color: '#00FF00' },
-        { id: 2, name: 'Element 2', x: 60, y: 60, o: 0.5, color: '#FF0000' },
-        { id: 3, name: 'Element 3', x: 110, y: 110, o: 1, color: '#0000FF' },
+    const [currentPageIndex, setCurrentPageIndex] = useState(0);
+    const [pages, setPages] = useState([
+        {
+            name: 'Page 1',
+            elements: [
+                { id: uuidv4(), x: 10, y: 10, o: 1, color: '#008000', active: true },
+                { id: uuidv4(), x: 60, y: 60, o: 0.5, color: '#008000', active: false },
+                { id: uuidv4(), x: 110, y: 110, o: 1, color: '#008000', active: false },
+            ],
+        },
+        {
+            name: 'Page 2',
+            elements: [{ id: uuidv4(), x: 70, y: 70, o: 0.9, color: '#566e95', active: true }],
+        },
     ]);
-    const [currentPage, setCurrentPage] = useState('Page 1');
-    const [selectedElement, setSelectedElement] = useState(null);
+    const [elements, setElements] = useState(pages[currentPageIndex].elements);
+    const [selectedElement, setSelectedElement] = useState(elements.find((el) => el.active) || null);
+
+    useEffect(() => {
+        setElements(pages[currentPageIndex].elements);
+        setSelectedElement(null);
+    }, [currentPageIndex, pages]);
 
     return (
         <AppContext.Provider
-            value={{ currentPage, setCurrentPage, selectedElement, setSelectedElement, elements, setElements }}
+            value={{
+                currentPageIndex,
+                setCurrentPageIndex,
+                elements,
+                setElements,
+                selectedElement,
+                setSelectedElement,
+                pages,
+                setPages,
+            }}
         >
             <AppWrapper>
                 <LeftPanel />

@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# Phase Challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This challenge provides the basic layout of the editor. Editor interface displays design documents.
 
-## Available Scripts
+Document data should have the following structure
 
-In the project directory, you can run:
+-   **Document** can have 1 \- \* **Pages**
+-   Each **Page** can have 0 \- \* **Elements**
+-   Each **Element** has following properties:
+    -   (position) **X**
+    -   (position) **Y**
+    -   **opacity**
+    -   **color**
+    -   (Optional) Each **Element** can have 0 \- \* child **Elements**
 
-### `npm start`
+UI is divided into
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   **LeftPanel** with **Page** list section and **Element** list section
+-   **Canvas**, where all **Elements** of the currently selected **Page** need to be displayed
+-   **RightPanel** which displays properties of the currently selected **Element**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Element list section (in **RightPanel**) and the **Canvas** always display the content of the **selected Page**. Elements on the Canvas can be displayed as any shape. They need to be displayed at their specified positions (**X**, **Y**) and with their specified **opacity** and **color**
 
-### `npm test`
+## Challenge
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Implement a fully interactable UI based on the current layout.
 
-### `npm run build`
+-   Can use Context, Redux or any other library to manage states.
+-   **Canvas** can be implemented with HTML or using canvas rendering. Can use any libraries to do so.
+-   The data structure implementation requirements have no limitations, but it has to be robust.
+-   Try to avoid any unnecessary re-render.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Checklist
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   [ ] Implement **Page** switching
+-   [ ] Implement **Element** selection
+    -   [ ] in Element section in **LeftPanel**
+    -   [ ] in **Canvas**
+-   [ ] Update the **Element** based on property changes in **RightPanel**
+    -   [ ] Changing **X** or **Y** values should change displayed position of the selected Element on the Canvas
+    -   [ ] Changing **color** or **opacity** should visually change color or transparency of the selected Element on the **Canvas**
+-   [ ] Implement moving / dragging Elements on the Canvas (drag-and-drop)
+-   [ ] Implement double-click to rename for **Elements** in Element list section and **Pages** in Page list section
+-   [ ] (Optional) Implement nested Element list, i.e. where elements can contain other elements.
+-   [ ] Unit tests
+-   [ ] (Optional) Any other tests that you think are necessary
+-   [ ] Have no performance issue

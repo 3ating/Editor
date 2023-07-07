@@ -17,6 +17,7 @@ const Block = styled.div`
     opacity: ${(props) => props.o};
     background: ${(props) => props.color};
     outline: ${(props) => (props.active ? 1 : 0)}px solid #0274ff;
+    cursor: pointer;
 `;
 
 const Canvas = () => {
