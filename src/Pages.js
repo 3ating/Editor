@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { AppContext } from './App';
+import useEditable from './hooks/useEditable';
 
 const PagesWrapper = styled.div`
     border-bottom: 1px solid;
@@ -14,46 +15,26 @@ const PageItem = styled.div`
 
 const Pages = () => {
     const { currentPageIndex, setCurrentPageIndex, pages, setPages } = useContext(AppContext);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editName, setEditName] = useState('');
-
-    const handleDoubleClick = () => {
-        setIsEditing(true);
-        setEditName(pages[currentPageIndex].name);
-    };
-
-    const handleNameChange = (e) => {
-        setEditName(e.target.value);
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            setPages((prevPages) =>
-                prevPages.map((page, index) => (index === currentPageIndex ? { ...page, name: editName } : page))
-            );
-            setIsEditing(false);
-        }
-    };
-
-    const handleBlur = () => {
-        setIsEditing(false);
-    };
+    const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
+        pages,
+        setPages
+    );
 
     return (
         <PagesWrapper>
             <h4>Pages</h4>
             {pages.map((page, index) => (
                 <PageItem
-                    key={page.name}
+                    key={page.id}
                     onClick={() => setCurrentPageIndex(Number(index))}
                     isActive={currentPageIndex === index}
-                    onDoubleClick={handleDoubleClick}
+                    onDoubleClick={() => handleDoubleClick(page)}
                 >
-                    {isEditing && currentPageIndex === index ? (
+                    {isEditing === page.id ? (
                         <input
                             value={editName}
                             onChange={handleNameChange}
-                            onKeyDown={handleKeyDown}
+                            onKeyDown={(e) => handlePagesKeyDown(e, page.id)}
                             onBlur={handleBlur}
                             autoFocus
                         />

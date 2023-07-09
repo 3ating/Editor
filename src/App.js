@@ -20,6 +20,7 @@ const App = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [pages, setPages] = useState([
         {
+            id: uuidv4(),
             name: 'Page 1',
             elements: [
                 { id: uuidv4(), x: 10, y: 10, o: 1, color: '#008000', active: true },
@@ -28,6 +29,7 @@ const App = () => {
             ],
         },
         {
+            id: uuidv4(),
             name: 'Page 2',
             elements: [{ id: uuidv4(), x: 70, y: 70, o: 0.9, color: '#566e95', active: true }],
         },

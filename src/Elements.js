@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { AppContext } from './App';
+import useEditable from './hooks/useEditable';
 
 const ElementsWrapper = styled.div``;
 
@@ -10,48 +11,16 @@ const ElementItem = styled.div`
 `;
 
 const Elements = () => {
-    const { elements, setElements, selectedElement, setSelectedElement, pages, setPages, currentPage } =
+    const { currentPageIndex, elements, setElements, selectedElement, setSelectedElement, pages, setPages } =
         useContext(AppContext);
-    const [isEditing, setIsEditing] = useState(null);
-    const [editName, setEditName] = useState('');
-    const handleDoubleClick = (element, index) => {
-        setIsEditing(element.id);
-        setEditName(element.name || `Element ${index + 1}`);
-    };
 
-    const handleNameChange = (e) => {
-        setEditName(e.target.value);
-    };
-
-    const handleKeyDown = (e, id) => {
-        if (e.key === 'Enter') {
-            const updatedElements = elements.map((el) => (el.id === id ? { ...el, name: editName } : el));
-
-            setElements(updatedElements);
-
-            setPages((prevPages) => {
-                return prevPages.map((page, index) =>
-                    index === currentPage ? { ...page, elements: updatedElements } : page
-                );
-            });
-
-            setSelectedElement((prevElement) => {
-                if (prevElement.id === id) {
-                    return { ...prevElement, name: editName };
-                } else {
-                    return prevElement;
-                }
-            });
-
-            setIsEditing(null);
-            setEditName('');
-        }
-    };
-
-    const handleBlur = () => {
-        setIsEditing(null);
-        setEditName('');
-    };
+    const { isEditing, editName, handleDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } = useEditable(
+        elements,
+        setElements,
+        pages,
+        setPages,
+        currentPageIndex
+    );
 
     return (
         <ElementsWrapper>
@@ -67,7 +36,7 @@ const Elements = () => {
                         <input
                             value={editName}
                             onChange={handleNameChange}
-                            onKeyDown={(e) => handleKeyDown(e, element.id)}
+                            onKeyDown={(e) => handleElementsKeyDown(e, element.id)}
                             onBlur={handleBlur}
                             autoFocus
                         />
