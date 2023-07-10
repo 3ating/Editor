@@ -13,7 +13,8 @@ const Label = styled.label`
 `;
 
 const RightPanel = () => {
-    const { selectedElement, setSelectedElement, elements, setElements } = useContext(AppContext);
+    const { currentPageIndex, selectedElement, setSelectedElement, elements, setElements, pages, setPages } =
+        useContext(AppContext);
 
     const handleElementChange = (prop, value) => {
         if (selectedElement) {
@@ -23,6 +24,20 @@ const RightPanel = () => {
             );
         }
     };
+
+    // const handleElementChange = (prop, value) => {
+    //     if (selectedElement) {
+    //         const updatedElement = { ...selectedElement, [prop]: value };
+    //         setSelectedElement(updatedElement);
+    //         const updatedElements = elements.map((el) => (el.id === selectedElement.id ? updatedElement : el));
+    //         setElements(updatedElements);
+    //         setPages((prevPages) =>
+    //             prevPages.map((page, index) =>
+    //                 index === currentPageIndex ? { ...page, elements: updatedElements } : page
+    //             )
+    //         );
+    //     }
+    // };
 
     return (
         <RightPanelWrapper>

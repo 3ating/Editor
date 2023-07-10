@@ -31,7 +31,7 @@ const App = () => {
         {
             id: uuidv4(),
             name: 'Page 2',
-            elements: [{ id: uuidv4(), x: 70, y: 70, o: 0.9, color: '#566e95', active: true }],
+            elements: [],
         },
     ]);
     const [elements, setElements] = useState(pages[currentPageIndex].elements);
