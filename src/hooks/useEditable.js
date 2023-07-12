@@ -1,12 +1,17 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 const useEditable = (items, setItems, pages, setPages, currentPageIndex) => {
     const [isEditing, setIsEditing] = useState(null);
     const [editName, setEditName] = useState('');
 
-    const handleDoubleClick = useCallback((item, index) => {
+    const handleElementsDoubleClick = useCallback((item, index) => {
         setIsEditing(item.id);
         setEditName(item.name || `Element ${index + 1}`);
+    }, []);
+
+    const handlePagesDoubleClick = useCallback((item, index) => {
+        setIsEditing(item.id);
+        setEditName(item.name || `Page ${index + 1}`);
     }, []);
 
     const handleNameChange = useCallback((e) => {
@@ -48,10 +53,28 @@ const useEditable = (items, setItems, pages, setPages, currentPageIndex) => {
         setEditName('');
     }, []);
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                if (isEditing) {
+                    setIsEditing(null);
+                    setEditName('');
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isEditing]);
+
     return {
         isEditing,
         editName,
-        handleDoubleClick,
+        handleElementsDoubleClick,
+        handlePagesDoubleClick,
         handleNameChange,
         handleElementsKeyDown,
         handlePagesKeyDown,

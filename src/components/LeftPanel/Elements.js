@@ -11,7 +11,7 @@ const ElementItem = styled.div`
 
 const Elements = React.memo(
     ({ elements, setElements, selectedElement, setSelectedElement, currentPageIndex, setPages, pages }) => {
-        const { isEditing, editName, handleDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } =
+        const { isEditing, editName, handleElementsDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } =
             useEditable(elements, setElements, pages, setPages, currentPageIndex);
 
         return (
@@ -22,7 +22,7 @@ const Elements = React.memo(
                         key={element.id}
                         onClick={() => setSelectedElement(element)}
                         isActive={selectedElement && selectedElement.id === element.id}
-                        onDoubleClick={() => handleDoubleClick(element, index)}
+                        onDoubleClick={() => handleElementsDoubleClick(element, index)}
                     >
                         {isEditing === element.id ? (
                             <input

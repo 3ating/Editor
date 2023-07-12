@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import LeftPanel from './components/LeftPanel/LeftPanel';
+import LeftPanel from './components/LeftPanel';
 import Canvas from './components/Canvas';
 import RightPanel from './components/RightPanel';
 

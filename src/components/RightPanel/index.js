@@ -19,8 +19,6 @@ const Input = styled.input`
 `;
 
 const RightPanel = () => {
-    // const { currentPageIndex, selectedElement, setSelectedElement, elements, setElements, pages, setPages } =
-    //     useContext(AppContext);
     const { currentPageIndex, setPages } = useContext(PageContext);
     const { selectedElement, setSelectedElement, elements, setElements } = useContext(ElementContext);
     const handleElementChange = (prop, value) => {

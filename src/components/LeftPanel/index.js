@@ -1,48 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import useEditable from '../../hooks/useEditable';
+import Pages from './Pages';
+import Elements from './Elements';
+import { PageContext, ElementContext } from '../../App';
 
-const PagesWrapper = styled.div`
-    border-bottom: 1px solid;
-    padding-bottom: 16px;
+const LeftPanelWrapper = styled.div`
+    padding: 8px;
 `;
 
-const PageItem = styled.div`
-    cursor: pointer;
-    color: ${(props) => (props.isActive ? '#0274ff' : 'gray')};
-`;
-
-const Pages = React.memo(({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
-    const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
-        pages,
-        setPages
-    );
+const LeftPanel = () => {
+    const { currentPageIndex, setCurrentPageIndex, pages, setPages } = useContext(PageContext);
+    const { elements, setElements, selectedElement, setSelectedElement } = useContext(ElementContext);
 
     return (
-        <PagesWrapper>
-            <h4>Pages</h4>
-            {pages.map((page, index) => (
-                <PageItem
-                    key={page.id}
-                    onClick={() => setCurrentPageIndex(Number(index))}
-                    isActive={currentPageIndex === index}
-                    onDoubleClick={() => handleDoubleClick(page)}
-                >
-                    {isEditing === page.id ? (
-                        <input
-                            value={editName}
-                            onChange={handleNameChange}
-                            onKeyDown={(e) => handlePagesKeyDown(e, page.id)}
-                            onBlur={handleBlur}
-                            autoFocus
-                        />
-                    ) : (
-                        page.name
-                    )}
-                </PageItem>
-            ))}
-        </PagesWrapper>
+        <LeftPanelWrapper>
+            <Pages
+                currentPageIndex={currentPageIndex}
+                setCurrentPageIndex={setCurrentPageIndex}
+                pages={pages}
+                setPages={setPages}
+            />
+            <Elements
+                elements={elements}
+                setElements={setElements}
+                selectedElement={selectedElement}
+                setSelectedElement={setSelectedElement}
+                currentPageIndex={currentPageIndex}
+                setPages={setPages}
+                pages={pages}
+            />
+        </LeftPanelWrapper>
     );
-});
+};
 
-export default Pages;
+export default LeftPanel;
