@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { AppContext } from './App';
-import useEditable from './hooks/useEditable';
+import useEditable from '../../hooks/useEditable';
 
 const PagesWrapper = styled.div`
     border-bottom: 1px solid;
@@ -13,8 +12,7 @@ const PageItem = styled.div`
     color: ${(props) => (props.isActive ? '#0274ff' : 'gray')};
 `;
 
-const Pages = () => {
-    const { currentPageIndex, setCurrentPageIndex, pages, setPages } = useContext(AppContext);
+const Pages = React.memo(({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
     const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
         pages,
         setPages
@@ -45,6 +43,6 @@ const Pages = () => {
             ))}
         </PagesWrapper>
     );
-};
+});
 
 export default Pages;

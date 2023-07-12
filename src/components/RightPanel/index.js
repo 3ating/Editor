@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { AppContext } from './App';
+import { AppContext } from '../../App';
+import { PageContext, ElementContext } from '../../App';
+
 import ColorPicker from './ColorPicker';
 
 const RightPanelWrapper = styled.div`
@@ -12,32 +14,28 @@ const Label = styled.label`
     grid-gap: 8px;
 `;
 
-const RightPanel = () => {
-    const { currentPageIndex, selectedElement, setSelectedElement, elements, setElements, pages, setPages } =
-        useContext(AppContext);
+const Input = styled.input`
+    width: 100%;
+`;
 
+const RightPanel = () => {
+    // const { currentPageIndex, selectedElement, setSelectedElement, elements, setElements, pages, setPages } =
+    //     useContext(AppContext);
+    const { currentPageIndex, setPages } = useContext(PageContext);
+    const { selectedElement, setSelectedElement, elements, setElements } = useContext(ElementContext);
     const handleElementChange = (prop, value) => {
         if (selectedElement) {
-            setSelectedElement({ ...selectedElement, [prop]: value });
-            setElements(
-                elements.map((el) => (el.id === selectedElement.id ? { ...selectedElement, [prop]: value } : el))
+            const updatedElement = { ...selectedElement, [prop]: value };
+            setSelectedElement(updatedElement);
+            const updatedElements = elements.map((el) => (el.id === selectedElement.id ? updatedElement : el));
+            setElements(updatedElements);
+            setPages((prevPages) =>
+                prevPages.map((page, index) =>
+                    index === currentPageIndex ? { ...page, elements: updatedElements } : page
+                )
             );
         }
     };
-
-    // const handleElementChange = (prop, value) => {
-    //     if (selectedElement) {
-    //         const updatedElement = { ...selectedElement, [prop]: value };
-    //         setSelectedElement(updatedElement);
-    //         const updatedElements = elements.map((el) => (el.id === selectedElement.id ? updatedElement : el));
-    //         setElements(updatedElements);
-    //         setPages((prevPages) =>
-    //             prevPages.map((page, index) =>
-    //                 index === currentPageIndex ? { ...page, elements: updatedElements } : page
-    //             )
-    //         );
-    //     }
-    // };
 
     return (
         <RightPanelWrapper>
@@ -45,7 +43,7 @@ const RightPanel = () => {
                 <>
                     <Label>
                         X
-                        <input
+                        <Input
                             type='number'
                             min={0}
                             max={999}
@@ -55,7 +53,7 @@ const RightPanel = () => {
                     </Label>
                     <Label>
                         Y
-                        <input
+                        <Input
                             type='number'
                             min={0}
                             max={999}
@@ -65,15 +63,22 @@ const RightPanel = () => {
                     </Label>
                     <Label>
                         O
-                        <input
+                        <Input
                             type='number'
                             min={0}
-                            max={1}
-                            step={0.1}
-                            value={selectedElement.o}
-                            onChange={(e) => handleElementChange('o', parseFloat(e.target.value))}
+                            max={100}
+                            value={parseInt(selectedElement.o * 100)}
+                            onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
+                        />
+                        <input
+                            type='range'
+                            min={0}
+                            max={100}
+                            value={parseInt(selectedElement.o * 100)}
+                            onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
                         />
                     </Label>
+
                     <Label>
                         B
                         <ColorPicker

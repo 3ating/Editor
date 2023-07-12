@@ -1,9 +1,9 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import LeftPanel from './LeftPanel';
-import Canvas from './Canvas';
-import RightPanel from './RightPanel';
+import LeftPanel from './components/LeftPanel/LeftPanel';
+import Canvas from './components/Canvas';
+import RightPanel from './components/RightPanel';
 
 const AppWrapper = styled.div`
     display: grid;
@@ -15,6 +15,8 @@ const AppWrapper = styled.div`
 `;
 
 export const AppContext = createContext();
+export const PageContext = createContext();
+export const ElementContext = createContext();
 
 const App = () => {
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -23,9 +25,9 @@ const App = () => {
             id: uuidv4(),
             name: 'Page 1',
             elements: [
-                { id: uuidv4(), x: 10, y: 10, o: 1, color: '#008000', active: true },
-                { id: uuidv4(), x: 60, y: 60, o: 0.5, color: '#008000', active: false },
-                { id: uuidv4(), x: 110, y: 110, o: 1, color: '#008000', active: false },
+                { id: uuidv4(), x: 10, y: 10, o: 1, color: '#008000', width: 50, height: 50, active: false },
+                { id: uuidv4(), x: 60, y: 60, o: 0.5, color: '#008000', width: 50, height: 50, active: false },
+                { id: uuidv4(), x: 110, y: 110, o: 1, color: '#008000', width: 50, height: 50, active: false },
             ],
         },
         {
@@ -39,28 +41,27 @@ const App = () => {
 
     useEffect(() => {
         setElements(pages[currentPageIndex].elements);
-        setSelectedElement(null);
     }, [currentPageIndex, pages]);
 
+    const pageValue = useMemo(
+        () => ({ currentPageIndex, setCurrentPageIndex, pages, setPages }),
+        [currentPageIndex, pages]
+    );
+    const elementValue = useMemo(
+        () => ({ elements, setElements, selectedElement, setSelectedElement }),
+        [elements, selectedElement]
+    );
+
     return (
-        <AppContext.Provider
-            value={{
-                currentPageIndex,
-                setCurrentPageIndex,
-                elements,
-                setElements,
-                selectedElement,
-                setSelectedElement,
-                pages,
-                setPages,
-            }}
-        >
-            <AppWrapper>
-                <LeftPanel />
-                <Canvas />
-                <RightPanel />
-            </AppWrapper>
-        </AppContext.Provider>
+        <PageContext.Provider value={pageValue}>
+            <ElementContext.Provider value={elementValue}>
+                <AppWrapper>
+                    <LeftPanel />
+                    <Canvas />
+                    <RightPanel />
+                </AppWrapper>
+            </ElementContext.Provider>
+        </PageContext.Provider>
     );
 };
 
