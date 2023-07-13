@@ -47,9 +47,15 @@ const App = () => {
         () => ({ currentPageIndex, setCurrentPageIndex, pages, setPages }),
         [currentPageIndex, pages]
     );
+
+    // const elementValue = useMemo(
+    //     () => ({ elements, setElements, selectedElement, setSelectedElement }),
+    //     [elements, selectedElement]
+    // );
+
     const elementValue = useMemo(
         () => ({ elements, setElements, selectedElement, setSelectedElement }),
-        [elements, selectedElement]
+        [elements, selectedElement?.id]
     );
 
     return (

@@ -4,6 +4,7 @@ const useEditable = (items, setItems, pages, setPages, currentPageIndex) => {
     const [isEditing, setIsEditing] = useState(null);
     const [editName, setEditName] = useState('');
 
+    //fix
     const handleElementsDoubleClick = useCallback((item, index) => {
         setIsEditing(item.id);
         setEditName(item.name || `Element ${index + 1}`);

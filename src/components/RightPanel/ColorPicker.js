@@ -7,6 +7,7 @@ const ColorPickerWrapper = styled.div`
     align-self: center;
     overflow: hidden;
 `;
+
 const ColorInput = styled.input`
     opacity: 0;
     display: block;
@@ -15,11 +16,18 @@ const ColorInput = styled.input`
     border: none;
     cursor: pointer;
 `;
+
 ColorInput.defaultProps = {
     type: 'color',
 };
 
-const ColorPicker = ({ color, onChangeColor }) => {
+const TestLabel = styled.label`
+    display: grid;
+    grid-template-columns: 16px auto minmax(0, 1fr);
+    grid-gap: 8px;
+`;
+
+const ColorPicker = ({ label, color, onChangeColor }) => {
     const ref = useRef();
     const inputRef = useRef();
 
@@ -28,10 +36,18 @@ const ColorPicker = ({ color, onChangeColor }) => {
     }, [color]);
 
     return (
-        <ColorPickerWrapper ref={ref}>
-            <ColorInput value={color} ref={inputRef} onChange={(e) => onChangeColor(e.target.value)} />
-        </ColorPickerWrapper>
+        <TestLabel>
+            {label}
+            <ColorPickerWrapper ref={ref}>
+                <ColorInput value={color} ref={inputRef} onChange={(e) => onChangeColor(e.target.value)} />
+            </ColorPickerWrapper>
+            {color}
+        </TestLabel>
     );
 };
 
-export default ColorPicker;
+function colorPickerPropsAreEqual(prevProps, nextProps) {
+    return prevProps.color === nextProps.color;
+}
+
+export default React.memo(ColorPicker, colorPickerPropsAreEqual);
