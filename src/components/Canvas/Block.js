@@ -13,6 +13,21 @@ const StyledBlock = styled.div`
     cursor: pointer;
 `;
 
+const areEqual = (prevProps, nextProps) => {
+    const { element: prevElement, active: prevActive } = prevProps;
+    const { element: nextElement, active: nextActive } = nextProps;
+
+    return (
+        prevElement.x === nextElement.x &&
+        prevElement.y === nextElement.y &&
+        prevElement.width === nextElement.width &&
+        prevElement.height === nextElement.height &&
+        prevElement.o === nextElement.o &&
+        prevElement.color === nextElement.color &&
+        prevActive === nextActive
+    );
+};
+
 const Block = React.memo(({ element, active, onDragStart, onClick, onDrag }) => {
     return (
         <StyledBlock
@@ -29,6 +44,6 @@ const Block = React.memo(({ element, active, onDragStart, onClick, onDrag }) => 
             onDrag={onDrag}
         />
     );
-});
+}, areEqual);
 
 export default Block;

@@ -11,7 +11,7 @@ const Input = styled.input`
     width: 50px;
 `;
 
-const Label = React.memo(
+const PositionLabel = React.memo(
     ({ label, value, onChange, min, max }) => {
         return (
             <LabelWrapper>
@@ -23,4 +23,4 @@ const Label = React.memo(
     (prevProps, nextProps) => prevProps.value === nextProps.value
 );
 
-export default Label;
+export default PositionLabel;

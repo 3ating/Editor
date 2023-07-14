@@ -14,7 +14,6 @@ const AppWrapper = styled.div`
     color: white;
 `;
 
-export const AppContext = createContext();
 export const PageContext = createContext();
 export const ElementContext = createContext();
 
@@ -47,11 +46,6 @@ const App = () => {
         () => ({ currentPageIndex, setCurrentPageIndex, pages, setPages }),
         [currentPageIndex, pages]
     );
-
-    // const elementValue = useMemo(
-    //     () => ({ elements, setElements, selectedElement, setSelectedElement }),
-    //     [elements, selectedElement]
-    // );
 
     const elementValue = useMemo(
         () => ({ elements, setElements, selectedElement, setSelectedElement }),

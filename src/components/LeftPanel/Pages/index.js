@@ -9,8 +9,10 @@ const PagesWrapper = styled.div`
 `;
 
 const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
-    const { isEditing, editName, handlePagesDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } =
-        useEditable(pages, setPages);
+    const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
+        pages,
+        setPages
+    );
 
     return (
         <PagesWrapper>
@@ -26,7 +28,7 @@ const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
                     handlePagesKeyDown={handlePagesKeyDown}
                     handleBlur={handleBlur}
                     setCurrentPageIndex={setCurrentPageIndex}
-                    handlePagesDoubleClick={handlePagesDoubleClick}
+                    handlePagesDoubleClick={handleDoubleClick}
                     isActive={currentPageIndex === index}
                 />
             ))}

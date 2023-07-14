@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { PageContext, ElementContext } from '../../App';
-
 import Block from './Block';
 
 const CanvasWrapper = styled.div`
@@ -13,9 +12,7 @@ const CanvasWrapper = styled.div`
 const Canvas = () => {
     const { currentPageIndex, setPages } = useContext(PageContext);
     const { elements, selectedElement, setSelectedElement, setElements } = useContext(ElementContext);
-
     const canvasRef = useRef(null);
-
     const dragOffset = useRef({ x: 0, y: 0 });
 
     const handleDragStart = useCallback(
@@ -60,22 +57,23 @@ const Canvas = () => {
         [elements, setElements, setSelectedElement, setPages, currentPageIndex]
     );
 
-    const handleDrag = useCallback((e, element) => {
-        if (e.clientX === 0 || e.clientY === 0) {
-            return;
-        }
+    const handleDrag = useCallback(
+        (e, element) => {
+            if (e.clientX === 0 || e.clientY === 0) {
+                return;
+            }
 
-        const target = e.target;
-        const rect = canvasRef.current.getBoundingClientRect();
-        let x = e.clientX - rect.left - dragOffset.current.x;
-        let y = e.clientY - rect.top - dragOffset.current.y;
+            const rect = canvasRef.current.getBoundingClientRect();
+            let x = e.clientX - rect.left - dragOffset.current.x;
+            let y = e.clientY - rect.top - dragOffset.current.y;
 
-        x = Math.min(Math.max(x, 0), rect.width - target.offsetWidth);
-        y = Math.min(Math.max(y, 0), rect.height - target.offsetHeight);
+            x = Math.min(Math.max(x, 0), rect.width - e.target.offsetWidth);
+            y = Math.min(Math.max(y, 0), rect.height - e.target.offsetHeight);
 
-        target.style.left = `${x}px`;
-        target.style.top = `${y}px`;
-    }, []);
+            setElements((prevElements) => prevElements.map((el) => (el.id === element.id ? { ...el, x, y } : el)));
+        },
+        [setElements]
+    );
 
     return (
         <CanvasWrapper ref={canvasRef} onDragOver={handleDragOver} onDrop={handleDrop}>

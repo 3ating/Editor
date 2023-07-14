@@ -20,7 +20,7 @@ function ElementItem({
 }) {
     const handleClick = useCallback(() => setSelectedElement(element), [setSelectedElement, element]);
     const handleDoubleClick = useCallback(
-        () => handleElementsDoubleClick(element, index),
+        () => handleElementsDoubleClick(element, index, 'element'),
         [handleElementsDoubleClick, element, index]
     );
 
