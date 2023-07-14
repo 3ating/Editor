@@ -43,8 +43,8 @@ const OpacityControl = ({ opacity, onChange }) => (
     </OpacityContainer>
 );
 
-function opacityControlPropsAreEqual(prevProps, nextProps) {
+const opacityControlPropsAreEqual = (prevProps, nextProps) => {
     return prevProps.opacity === nextProps.opacity;
-}
+};
 
-export default React.memo(OpacityControl, opacityControlPropsAreEqual);
+export default React.memo(OpacityControl);

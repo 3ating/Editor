@@ -9,7 +9,7 @@ const StyledElementItem = styled.div`
 function ElementItem({
     element,
     index,
-    isEditing,
+    editingId,
     editName,
     handleNameChange,
     handleElementsKeyDown,
@@ -41,7 +41,7 @@ function ElementItem({
 
     return (
         <StyledElementItem onClick={handleClick} active={active} onDoubleClick={handleDoubleClick}>
-            {isEditing === element.id ? (
+            {editingId === element.id ? (
                 <input
                     value={editName}
                     onChange={handleNameChange}
@@ -56,13 +56,13 @@ function ElementItem({
     );
 }
 
-function propsAreEqual(prevProps, nextProps) {
+const propsAreEqual = (prevProps, nextProps) => {
     return (
         prevProps.element.id === nextProps.element.id &&
-        prevProps.isEditing === nextProps.isEditing &&
+        prevProps.editingId === nextProps.editingId &&
         prevProps.editName === nextProps.editName &&
         prevProps.active === nextProps.active
     );
-}
+};
 
 export default React.memo(ElementItem, propsAreEqual);

@@ -28,26 +28,20 @@ const TestLabel = styled.label`
 `;
 
 const ColorPicker = ({ label, color, onChangeColor }) => {
-    const ref = useRef();
-    const inputRef = useRef();
-
+    const colorPickerWrapperRef = useRef();
     useEffect(() => {
-        ref.current.style.background = color;
+        colorPickerWrapperRef.current.style.background = color;
     }, [color]);
 
     return (
         <TestLabel>
             {label}
-            <ColorPickerWrapper ref={ref}>
-                <ColorInput value={color} ref={inputRef} onChange={(e) => onChangeColor(e.target.value)} />
+            <ColorPickerWrapper ref={colorPickerWrapperRef}>
+                <ColorInput value={color} onChange={(e) => onChangeColor(e.target.value)} />
             </ColorPickerWrapper>
             {color}
         </TestLabel>
     );
 };
 
-function colorPickerPropsAreEqual(prevProps, nextProps) {
-    return prevProps.color === nextProps.color;
-}
-
-export default React.memo(ColorPicker, colorPickerPropsAreEqual);
+export default React.memo(ColorPicker);

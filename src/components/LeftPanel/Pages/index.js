@@ -9,7 +9,7 @@ const PagesWrapper = styled.div`
 `;
 
 const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
-    const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
+    const { editingId, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
         pages,
         setPages
     );
@@ -22,7 +22,7 @@ const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
                     key={page.id}
                     page={page}
                     index={index}
-                    isEditing={isEditing}
+                    editingId={editingId}
                     editName={editName}
                     handleNameChange={handleNameChange}
                     handlePagesKeyDown={handlePagesKeyDown}
@@ -38,14 +38,14 @@ const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
     );
 };
 
-function propsAreEqual(prevProps, nextProps) {
+const propsAreEqual = (prevProps, nextProps) => {
     return (
         prevProps.pages === nextProps.pages &&
         prevProps.currentPageIndex === nextProps.currentPageIndex &&
-        prevProps.isEditing === nextProps.isEditing &&
+        prevProps.editingId === nextProps.editingId &&
         prevProps.editName === nextProps.editName &&
-        prevProps.isEditing === null
+        prevProps.editingId === null
     );
-}
+};
 
 export default React.memo(Pages, propsAreEqual);

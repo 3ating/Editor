@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
 
 const useEditable = (pages, setPages, currentPageIndex) => {
-    const [isEditing, setIsEditing] = useState(null);
+    const [editingId, setEditingId] = useState(null);
     const [editName, setEditName] = useState('');
 
     const handleDoubleClick = useCallback((type, element, index) => {
-        setIsEditing(element.id);
+        setEditingId(element.id);
         setEditName(element.name || `${type === 'page' ? 'Page' : 'Element'} ${index + 1}`);
     }, []);
 
@@ -26,7 +26,7 @@ const useEditable = (pages, setPages, currentPageIndex) => {
                             : page
                     )
                 );
-                setIsEditing(null);
+                setEditingId(null);
                 setEditName('');
             }
         },
@@ -37,7 +37,7 @@ const useEditable = (pages, setPages, currentPageIndex) => {
         (e, id) => {
             if (e.key === 'Enter') {
                 setPages((prevPages) => prevPages.map((page) => (page.id === id ? { ...page, name: editName } : page)));
-                setIsEditing(null);
+                setEditingId(null);
                 setEditName('');
             }
         },
@@ -45,15 +45,15 @@ const useEditable = (pages, setPages, currentPageIndex) => {
     );
 
     const handleBlur = useCallback(() => {
-        setIsEditing(null);
+        setEditingId(null);
         setEditName('');
     }, []);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') {
-                if (isEditing) {
-                    setIsEditing(null);
+                if (editingId) {
+                    setEditingId(null);
                     setEditName('');
                 }
             }
@@ -64,10 +64,10 @@ const useEditable = (pages, setPages, currentPageIndex) => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isEditing]);
+    }, [editingId]);
 
     return {
-        isEditing,
+        editingId,
         editName,
         handleDoubleClick,
         handleNameChange,

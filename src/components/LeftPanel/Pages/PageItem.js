@@ -9,7 +9,7 @@ const PageItems = styled.div`
 const PageItem = ({
     page,
     index,
-    isEditing,
+    editingId,
     editName,
     handleNameChange,
     handlePagesKeyDown,
@@ -44,7 +44,7 @@ const PageItem = ({
 
     return (
         <PageItems onClick={handleClick} active={active} onDoubleClick={handleDoubleClick}>
-            {isEditing === page.id ? (
+            {editingId === page.id ? (
                 <input
                     value={editName}
                     onChange={handleNameChange}
@@ -59,10 +59,10 @@ const PageItem = ({
     );
 };
 
-function propsAreEqual(prevProps, nextProps) {
+const propsAreEqual = (prevProps, nextProps) => {
     if (
         prevProps.page.id === nextProps.page.id &&
-        prevProps.isEditing === nextProps.isEditing &&
+        prevProps.editingId === nextProps.editingId &&
         prevProps.editName === nextProps.editName &&
         prevProps.active === nextProps.active
     ) {
@@ -70,6 +70,6 @@ function propsAreEqual(prevProps, nextProps) {
     } else {
         return false;
     }
-}
+};
 
 export default React.memo(PageItem, propsAreEqual);

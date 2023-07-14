@@ -6,7 +6,7 @@ import ElementItem from './ElementItem';
 const ElementsWrapper = styled.div``;
 
 const Elements = React.memo(({ pages, setPages, currentPageIndex }) => {
-    const { isEditing, editName, handleDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } = useEditable(
+    const { editingId, editName, handleDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } = useEditable(
         pages,
         setPages,
         currentPageIndex
@@ -22,7 +22,7 @@ const Elements = React.memo(({ pages, setPages, currentPageIndex }) => {
                     key={element.id}
                     element={element}
                     index={index}
-                    isEditing={isEditing}
+                    editingId={editingId}
                     editName={editName}
                     handleNameChange={handleNameChange}
                     handleElementsKeyDown={handleElementsKeyDown}
@@ -37,8 +37,8 @@ const Elements = React.memo(({ pages, setPages, currentPageIndex }) => {
     );
 });
 
-function propsAreEqual(prevProps, nextProps) {
+const propsAreEqual = (prevProps, nextProps) => {
     return prevProps.pages === nextProps.pages;
-}
+};
 
 export default React.memo(Elements, propsAreEqual);

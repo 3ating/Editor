@@ -3,10 +3,10 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import ElementItem from './ElementItem';
 
 describe('ElementItem', () => {
-    let setSelectedElement, handleElementsDoubleClick;
+    let setPages, handleElementsDoubleClick;
 
     beforeEach(() => {
-        setSelectedElement = jest.fn();
+        setPages = jest.fn();
         handleElementsDoubleClick = jest.fn();
     });
 
@@ -15,14 +15,15 @@ describe('ElementItem', () => {
             <ElementItem
                 element={{ id: 1, name: 'Element 1' }}
                 index={0}
-                setSelectedElement={setSelectedElement}
+                setPages={setPages}
                 handleElementsDoubleClick={handleElementsDoubleClick}
                 active={false}
+                currentPageIndex={0}
             />
         );
 
         fireEvent.click(screen.getByText('Element 1'));
-        expect(setSelectedElement).toHaveBeenCalledWith({ id: 1, name: 'Element 1' });
+        expect(setPages).toHaveBeenCalled();
     });
 
     it('handles double click', () => {
@@ -30,13 +31,14 @@ describe('ElementItem', () => {
             <ElementItem
                 element={{ id: 1, name: 'Element 1' }}
                 index={0}
-                setSelectedElement={setSelectedElement}
+                setPages={setPages}
                 handleElementsDoubleClick={handleElementsDoubleClick}
                 active={false}
+                currentPageIndex={0}
             />
         );
 
         fireEvent.doubleClick(screen.getByText('Element 1'));
-        expect(handleElementsDoubleClick).toHaveBeenCalledWith({ id: 1, name: 'Element 1' }, 0);
+        expect(handleElementsDoubleClick).toHaveBeenCalledWith('element', { id: 1, name: 'Element 1' }, 0);
     });
 });

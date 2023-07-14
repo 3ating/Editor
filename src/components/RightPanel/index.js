@@ -69,11 +69,11 @@ const RightPanel = () => {
     );
 };
 
-function rightPanelPropsAreEqual(prevProps, nextProps) {
+const rightPanelPropsAreEqual = (prevProps, nextProps) => {
     return (
         prevProps.currentPageIndex === nextProps.currentPageIndex &&
         prevProps.selectedElement?.id === nextProps.selectedElement?.id
     );
-}
+};
 
 export default React.memo(RightPanel, rightPanelPropsAreEqual);

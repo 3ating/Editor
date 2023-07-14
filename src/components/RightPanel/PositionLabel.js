@@ -11,16 +11,15 @@ const Input = styled.input`
     width: 50px;
 `;
 
-const PositionLabel = React.memo(
-    ({ label, value, onChange, min, max }) => {
-        return (
-            <LabelWrapper>
-                {label}
-                <Input type='number' value={value} onChange={onChange} />
-            </LabelWrapper>
-        );
-    },
-    (prevProps, nextProps) => prevProps.value === nextProps.value
-);
+const PositionLabel = ({ label, value, onChange, min, max }) => {
+    return (
+        <LabelWrapper>
+            {label}
+            <Input type='number' value={value} onChange={onChange} />
+        </LabelWrapper>
+    );
+};
 
-export default PositionLabel;
+const propsAreEqual = (prevProps, nextProps) => prevProps.value === nextProps.value;
+
+export default React.memo(PositionLabel, propsAreEqual);
