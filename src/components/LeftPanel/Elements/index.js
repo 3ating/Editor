@@ -5,41 +5,40 @@ import ElementItem from './ElementItem';
 
 const ElementsWrapper = styled.div``;
 
-const Elements = React.memo(
-    ({ elements, setElements, selectedElement, setSelectedElement, currentPageIndex, setPages, pages }) => {
-        const { isEditing, editName, handleElementsDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } =
-            useEditable(elements, setElements, pages, setPages, currentPageIndex);
+const Elements = React.memo(({ pages, setPages, currentPageIndex }) => {
+    const { isEditing, editName, handleDoubleClick, handleNameChange, handleElementsKeyDown, handleBlur } = useEditable(
+        pages,
+        setPages,
+        currentPageIndex
+    );
 
-        return (
-            <ElementsWrapper>
-                <h4>Elements</h4>
-                {elements.map((element, index) => (
-                    <ElementItem
-                        key={element.id}
-                        element={element}
-                        index={index}
-                        isEditing={isEditing}
-                        editName={editName}
-                        handleNameChange={handleNameChange}
-                        handleElementsKeyDown={handleElementsKeyDown}
-                        handleBlur={handleBlur}
-                        setSelectedElement={setSelectedElement}
-                        handleElementsDoubleClick={handleElementsDoubleClick}
-                        active={selectedElement && selectedElement.id === element.id}
-                    />
-                ))}
-            </ElementsWrapper>
-        );
-    }
-);
+    const elements = pages[currentPageIndex].elements;
+
+    return (
+        <ElementsWrapper>
+            <h4>Elements</h4>
+            {elements.map((element, index) => (
+                <ElementItem
+                    key={element.id}
+                    element={element}
+                    index={index}
+                    isEditing={isEditing}
+                    editName={editName}
+                    handleNameChange={handleNameChange}
+                    handleElementsKeyDown={handleElementsKeyDown}
+                    handleBlur={handleBlur}
+                    handleElementsDoubleClick={handleDoubleClick}
+                    active={element.active}
+                    setPages={setPages}
+                    currentPageIndex={currentPageIndex}
+                />
+            ))}
+        </ElementsWrapper>
+    );
+});
 
 function propsAreEqual(prevProps, nextProps) {
-    return (
-        prevProps.elements === nextProps.elements &&
-        prevProps.selectedElement?.id === nextProps.selectedElement?.id &&
-        prevProps.isEditing === nextProps.isEditing &&
-        prevProps.editName === nextProps.editName
-    );
+    return prevProps.pages === nextProps.pages;
 }
 
 export default React.memo(Elements, propsAreEqual);

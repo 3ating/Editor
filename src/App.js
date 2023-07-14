@@ -35,22 +35,16 @@ const App = () => {
             elements: [],
         },
     ]);
-    const [elements, setElements] = useState(pages[currentPageIndex].elements);
-    const [selectedElement, setSelectedElement] = useState(elements.find((el) => el.active) || null);
 
-    useEffect(() => {
-        setElements(pages[currentPageIndex].elements);
-    }, [currentPageIndex, pages]);
+    const elements = pages[currentPageIndex].elements;
+    const selectedElement = elements.find((el) => el.active) || null;
 
     const pageValue = useMemo(
         () => ({ currentPageIndex, setCurrentPageIndex, pages, setPages }),
         [currentPageIndex, pages]
     );
 
-    const elementValue = useMemo(
-        () => ({ elements, setElements, selectedElement, setSelectedElement }),
-        [elements, selectedElement?.id]
-    );
+    const elementValue = useMemo(() => ({ elements, selectedElement }), [elements, selectedElement?.id]);
 
     return (
         <PageContext.Provider value={pageValue}>

@@ -10,8 +10,8 @@ const CanvasWrapper = styled.div`
 `;
 
 const Canvas = () => {
-    const { currentPageIndex, setPages } = useContext(PageContext);
-    const { elements, selectedElement, setSelectedElement, setElements } = useContext(ElementContext);
+    const { currentPageIndex, pages, setPages } = useContext(PageContext);
+    const { elements, selectedElement } = useContext(ElementContext);
     const canvasRef = useRef(null);
     const dragOffset = useRef({ x: 0, y: 0 });
 
@@ -20,11 +20,22 @@ const Canvas = () => {
             const rect = e.target.getBoundingClientRect();
             dragOffset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
             e.dataTransfer.setData('application/reactflow', JSON.stringify(element));
-            setSelectedElement(element);
+            setPages((prevPages) =>
+                prevPages.map((page, index) =>
+                    index === currentPageIndex
+                        ? {
+                              ...page,
+                              elements: page.elements.map((el) =>
+                                  el.id === element.id ? { ...el, active: true } : { ...el, active: false }
+                              ),
+                          }
+                        : page
+                )
+            );
             e.dataTransfer.effectAllowed = 'move';
             e.target.style.transition = '';
         },
-        [setSelectedElement]
+        [setPages, currentPageIndex]
     );
 
     const handleDragOver = useCallback((e) => {
@@ -43,18 +54,20 @@ const Canvas = () => {
             x = Math.min(Math.max(x, 0), rect.width - newElement.width);
             y = Math.min(Math.max(y, 0), rect.height - newElement.height);
 
-            const updatedElement = { ...newElement, x, y };
-            const updatedElements = elements.map((el) => (el.id === newElement.id ? updatedElement : el));
-
-            setElements(updatedElements);
-            setSelectedElement(updatedElement);
             setPages((prevPages) =>
                 prevPages.map((page, index) =>
-                    index === currentPageIndex ? { ...page, elements: updatedElements } : page
+                    index === currentPageIndex
+                        ? {
+                              ...page,
+                              elements: page.elements.map((el) =>
+                                  el.id === newElement.id ? { ...el, x, y, active: true } : { ...el, active: false }
+                              ),
+                          }
+                        : page
                 )
             );
         },
-        [elements, setElements, setSelectedElement, setPages, currentPageIndex]
+        [setPages, currentPageIndex]
     );
 
     return (
@@ -65,7 +78,20 @@ const Canvas = () => {
                     element={element}
                     active={selectedElement && selectedElement.id === element.id}
                     onDragStart={(e) => handleDragStart(e, element)}
-                    onClick={() => setSelectedElement(element)}
+                    onClick={() =>
+                        setPages((prevPages) =>
+                            prevPages.map((page, index) =>
+                                index === currentPageIndex
+                                    ? {
+                                          ...page,
+                                          elements: page.elements.map((el) =>
+                                              el.id === element.id ? { ...el, active: true } : { ...el, active: false }
+                                          ),
+                                      }
+                                    : page
+                            )
+                        )
+                    }
                 />
             ))}
         </CanvasWrapper>

@@ -10,25 +10,34 @@ const RightPanelWrapper = styled.div`
 `;
 
 const RightPanel = () => {
-    const { currentPageIndex, setPages } = useContext(PageContext);
-    const { selectedElement, setSelectedElement, elements, setElements } = useContext(ElementContext);
+    const { currentPageIndex, pages, setPages } = useContext(PageContext);
+    const { selectedElement } = useContext(ElementContext);
 
     useEffect(() => {
-        setSelectedElement(null);
-    }, [currentPageIndex, setSelectedElement]);
+        setPages((prevPages) =>
+            prevPages.map((page, index) =>
+                index === currentPageIndex
+                    ? { ...page, elements: page.elements.map((el) => ({ ...el, active: false })) }
+                    : page
+            )
+        );
+    }, [currentPageIndex, setPages]);
 
     console.log('外面', selectedElement);
 
     const handleElementChange = (prop, value) => {
         if (selectedElement) {
             console.log('裡面', selectedElement);
-            const updatedElement = { ...selectedElement, [prop]: value };
-            setSelectedElement(updatedElement);
-            const updatedElements = elements.map((el) => (el.id === selectedElement.id ? updatedElement : el));
-            setElements(updatedElements);
             setPages((prevPages) =>
                 prevPages.map((page, index) =>
-                    index === currentPageIndex ? { ...page, elements: updatedElements } : page
+                    index === currentPageIndex
+                        ? {
+                              ...page,
+                              elements: page.elements.map((el) =>
+                                  el.id === selectedElement.id ? { ...el, [prop]: value } : el
+                              ),
+                          }
+                        : page
                 )
             );
         }

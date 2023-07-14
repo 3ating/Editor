@@ -17,10 +17,11 @@ const PageItem = ({
     setCurrentPageIndex,
     handlePagesDoubleClick,
     active,
+    setPages,
 }) => {
     const handleClick = useCallback(() => setCurrentPageIndex(Number(index)), [setCurrentPageIndex, index]);
     const handleDoubleClick = useCallback(
-        () => handlePagesDoubleClick(page, index),
+        () => handlePagesDoubleClick('page', page, index),
         [handlePagesDoubleClick, page, index]
     );
 

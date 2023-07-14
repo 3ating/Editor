@@ -14,13 +14,28 @@ function ElementItem({
     handleNameChange,
     handleElementsKeyDown,
     handleBlur,
-    setSelectedElement,
     handleElementsDoubleClick,
     active,
+    setPages,
+    currentPageIndex,
 }) {
-    const handleClick = useCallback(() => setSelectedElement(element), [setSelectedElement, element]);
+    const handleClick = useCallback(() => {
+        setPages((prevPages) =>
+            prevPages.map((page, index) =>
+                index === currentPageIndex
+                    ? {
+                          ...page,
+                          elements: page.elements.map((el) =>
+                              el.id === element.id ? { ...el, active: true } : { ...el, active: false }
+                          ),
+                      }
+                    : page
+            )
+        );
+    }, [setPages, currentPageIndex, element]);
+
     const handleDoubleClick = useCallback(
-        () => handleElementsDoubleClick(element, index),
+        () => handleElementsDoubleClick('element', element, index),
         [handleElementsDoubleClick, element, index]
     );
 
