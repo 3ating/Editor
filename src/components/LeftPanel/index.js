@@ -10,7 +10,7 @@ const LeftPanelWrapper = styled.div`
 
 const LeftPanel = () => {
     const { currentPageIndex, setCurrentPageIndex, pages, setPages } = useContext(PageContext);
-    const { elements, setElements, selectedElement, setSelectedElement } = useContext(ElementContext);
+    const { elements, selectedElement } = useContext(ElementContext);
 
     return (
         <LeftPanelWrapper>
@@ -22,9 +22,7 @@ const LeftPanel = () => {
             />
             <Elements
                 elements={elements}
-                setElements={setElements}
                 selectedElement={selectedElement}
-                setSelectedElement={setSelectedElement}
                 currentPageIndex={currentPageIndex}
                 setPages={setPages}
                 pages={pages}

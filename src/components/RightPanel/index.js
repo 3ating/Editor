@@ -23,11 +23,8 @@ const RightPanel = () => {
         );
     }, [currentPageIndex, setPages]);
 
-    console.log('外面', selectedElement);
-
     const handleElementChange = (prop, value) => {
         if (selectedElement) {
-            console.log('裡面', selectedElement);
             setPages((prevPages) =>
                 prevPages.map((page, index) =>
                     index === currentPageIndex
@@ -59,7 +56,6 @@ const RightPanel = () => {
                     />
                     <OpacityControl
                         opacity={selectedElement.o}
-                        // handleElementChange={handleElementChange}
                         onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
                     />
                     <ColorPicker

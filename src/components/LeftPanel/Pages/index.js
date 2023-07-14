@@ -30,6 +30,7 @@ const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
                     setCurrentPageIndex={setCurrentPageIndex}
                     handlePagesDoubleClick={handleDoubleClick}
                     active={currentPageIndex === index}
+                    currentPageIndex={currentPageIndex}
                     setPages={setPages}
                 />
             ))}

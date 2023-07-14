@@ -18,8 +18,25 @@ const PageItem = ({
     handlePagesDoubleClick,
     active,
     setPages,
+    currentPageIndex,
 }) => {
-    const handleClick = useCallback(() => setCurrentPageIndex(Number(index)), [setCurrentPageIndex, index]);
+    const handleClick = useCallback(() => {
+        setPages((prevPages) =>
+            prevPages.map((page, idx) => {
+                if (idx === currentPageIndex) {
+                    return {
+                        ...page,
+                        elements: page.elements.map((element) => ({ ...element, active: false })),
+                    };
+                }
+
+                return page;
+            })
+        );
+
+        setCurrentPageIndex(Number(index));
+    }, [setCurrentPageIndex, index, currentPageIndex, setPages]);
+
     const handleDoubleClick = useCallback(
         () => handlePagesDoubleClick('page', page, index),
         [handlePagesDoubleClick, page, index]
