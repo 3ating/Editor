@@ -9,10 +9,8 @@ const PagesWrapper = styled.div`
 `;
 
 const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
-    const { isEditing, editName, handleDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } = useEditable(
-        pages,
-        setPages
-    );
+    const { isEditing, editName, handlePagesDoubleClick, handleNameChange, handlePagesKeyDown, handleBlur } =
+        useEditable(pages, setPages);
 
     return (
         <PagesWrapper>
@@ -28,8 +26,8 @@ const Pages = ({ currentPageIndex, setCurrentPageIndex, pages, setPages }) => {
                     handlePagesKeyDown={handlePagesKeyDown}
                     handleBlur={handleBlur}
                     setCurrentPageIndex={setCurrentPageIndex}
-                    handlePagesDoubleClick={handleDoubleClick}
-                    isActive={currentPageIndex === index}
+                    handlePagesDoubleClick={handlePagesDoubleClick}
+                    active={currentPageIndex === index}
                 />
             ))}
         </PagesWrapper>
@@ -41,7 +39,8 @@ function propsAreEqual(prevProps, nextProps) {
         prevProps.pages === nextProps.pages &&
         prevProps.currentPageIndex === nextProps.currentPageIndex &&
         prevProps.isEditing === nextProps.isEditing &&
-        prevProps.editName === nextProps.editName
+        prevProps.editName === nextProps.editName &&
+        prevProps.isEditing === null
     );
 }
 

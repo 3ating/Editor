@@ -1,12 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const useEditable = (setItems, setPages, currentPageIndex) => {
+const useEditable = (items, setItems, pages, setPages, currentPageIndex) => {
     const [isEditing, setIsEditing] = useState(null);
     const [editName, setEditName] = useState('');
 
-    const handleDoubleClick = useCallback((item, index, type) => {
+    const handleElementsDoubleClick = useCallback((item, index) => {
         setIsEditing(item.id);
-        setEditName(item.name || `${type === 'page' ? 'Page' : 'Element'} ${index + 1}`);
+        setEditName(item.name || `Element ${index + 1}`);
+    }, []);
+
+    const handlePagesDoubleClick = useCallback((item, index) => {
+        setIsEditing(item.id);
+        setEditName(item.name || `Page ${index + 1}`);
     }, []);
 
     const handleNameChange = useCallback((e) => {
@@ -68,7 +73,8 @@ const useEditable = (setItems, setPages, currentPageIndex) => {
     return {
         isEditing,
         editName,
-        handleDoubleClick,
+        handleElementsDoubleClick,
+        handlePagesDoubleClick,
         handleNameChange,
         handleElementsKeyDown,
         handlePagesKeyDown,

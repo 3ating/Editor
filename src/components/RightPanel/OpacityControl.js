@@ -33,19 +33,13 @@ RangeInput.defaultProps = {
     max: 100,
 };
 
-const OpacityControl = ({ opacity, handleElementChange }) => (
+const OpacityControl = ({ opacity, onChange }) => (
     <OpacityContainer>
         <LabelWrapper>
             O
-            <Input
-                value={parseInt(opacity * 100)}
-                onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
-            />
+            <Input value={parseInt(opacity * 100)} onChange={onChange} />
         </LabelWrapper>
-        <RangeInput
-            value={parseInt(opacity * 100)}
-            onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
-        />
+        <RangeInput value={parseInt(opacity * 100)} onChange={onChange} />
     </OpacityContainer>
 );
 
@@ -53,4 +47,5 @@ function opacityControlPropsAreEqual(prevProps, nextProps) {
     return prevProps.opacity === nextProps.opacity;
 }
 
-export default React.memo(OpacityControl, opacityControlPropsAreEqual);
+export default React.memo(OpacityControl);
+// export default OpacityControl;

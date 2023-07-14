@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const PageItems = styled.div`
     cursor: pointer;
-    color: ${(props) => (props.isActive ? '#0274ff' : 'gray')};
+    color: ${(props) => (props.active ? '#0274ff' : 'gray')};
 `;
 
 const PageItem = ({
@@ -16,16 +16,16 @@ const PageItem = ({
     handleBlur,
     setCurrentPageIndex,
     handlePagesDoubleClick,
-    isActive,
+    active,
 }) => {
     const handleClick = useCallback(() => setCurrentPageIndex(Number(index)), [setCurrentPageIndex, index]);
     const handleDoubleClick = useCallback(
-        () => handlePagesDoubleClick(page, index, 'page'),
+        () => handlePagesDoubleClick(page, index),
         [handlePagesDoubleClick, page, index]
     );
 
     return (
-        <PageItems onClick={handleClick} isActive={isActive} onDoubleClick={handleDoubleClick}>
+        <PageItems onClick={handleClick} active={active} onDoubleClick={handleDoubleClick}>
             {isEditing === page.id ? (
                 <input
                     value={editName}
@@ -46,7 +46,7 @@ function propsAreEqual(prevProps, nextProps) {
         prevProps.page.id === nextProps.page.id &&
         prevProps.isEditing === nextProps.isEditing &&
         prevProps.editName === nextProps.editName &&
-        prevProps.isActive === nextProps.isActive
+        prevProps.active === nextProps.active
     ) {
         return true;
     } else {

@@ -57,24 +57,6 @@ const Canvas = () => {
         [elements, setElements, setSelectedElement, setPages, currentPageIndex]
     );
 
-    const handleDrag = useCallback(
-        (e, element) => {
-            if (e.clientX === 0 || e.clientY === 0) {
-                return;
-            }
-
-            const rect = canvasRef.current.getBoundingClientRect();
-            let x = e.clientX - rect.left - dragOffset.current.x;
-            let y = e.clientY - rect.top - dragOffset.current.y;
-
-            x = Math.min(Math.max(x, 0), rect.width - e.target.offsetWidth);
-            y = Math.min(Math.max(y, 0), rect.height - e.target.offsetHeight);
-
-            setElements((prevElements) => prevElements.map((el) => (el.id === element.id ? { ...el, x, y } : el)));
-        },
-        [setElements]
-    );
-
     return (
         <CanvasWrapper ref={canvasRef} onDragOver={handleDragOver} onDrop={handleDrop}>
             {elements.map((element) => (
@@ -84,7 +66,6 @@ const Canvas = () => {
                     active={selectedElement && selectedElement.id === element.id}
                     onDragStart={(e) => handleDragStart(e, element)}
                     onClick={() => setSelectedElement(element)}
-                    onDrag={(e) => handleDrag(e, element)}
                 />
             ))}
         </CanvasWrapper>

@@ -17,8 +17,11 @@ const RightPanel = () => {
         setSelectedElement(null);
     }, [currentPageIndex, setSelectedElement]);
 
+    console.log('外面', selectedElement);
+
     const handleElementChange = (prop, value) => {
         if (selectedElement) {
+            console.log('裡面', selectedElement);
             const updatedElement = { ...selectedElement, [prop]: value };
             setSelectedElement(updatedElement);
             const updatedElements = elements.map((el) => (el.id === selectedElement.id ? updatedElement : el));
@@ -45,7 +48,11 @@ const RightPanel = () => {
                         value={selectedElement.y}
                         onChange={(e) => handleElementChange('y', parseInt(e.target.value))}
                     />
-                    <OpacityControl opacity={selectedElement.o} handleElementChange={handleElementChange} />
+                    <OpacityControl
+                        opacity={selectedElement.o}
+                        // handleElementChange={handleElementChange}
+                        onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
+                    />
                     <ColorPicker
                         label='B'
                         color={selectedElement.color}

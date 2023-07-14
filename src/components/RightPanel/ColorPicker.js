@@ -50,4 +50,4 @@ function colorPickerPropsAreEqual(prevProps, nextProps) {
     return prevProps.color === nextProps.color;
 }
 
-export default React.memo(ColorPicker, colorPickerPropsAreEqual);
+export default React.memo(ColorPicker);

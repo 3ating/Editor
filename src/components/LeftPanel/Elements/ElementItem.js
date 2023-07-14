@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledElementItem = styled.div`
     cursor: pointer;
-    color: ${(props) => (props.isActive ? '#0274ff' : 'gray')};
+    color: ${(props) => (props.active ? '#0274ff' : 'gray')};
 `;
 
 function ElementItem({
@@ -16,16 +16,16 @@ function ElementItem({
     handleBlur,
     setSelectedElement,
     handleElementsDoubleClick,
-    isActive,
+    active,
 }) {
     const handleClick = useCallback(() => setSelectedElement(element), [setSelectedElement, element]);
     const handleDoubleClick = useCallback(
-        () => handleElementsDoubleClick(element, index, 'element'),
+        () => handleElementsDoubleClick(element, index),
         [handleElementsDoubleClick, element, index]
     );
 
     return (
-        <StyledElementItem onClick={handleClick} isActive={isActive} onDoubleClick={handleDoubleClick}>
+        <StyledElementItem onClick={handleClick} active={active} onDoubleClick={handleDoubleClick}>
             {isEditing === element.id ? (
                 <input
                     value={editName}
@@ -46,7 +46,7 @@ function propsAreEqual(prevProps, nextProps) {
         prevProps.element.id === nextProps.element.id &&
         prevProps.isEditing === nextProps.isEditing &&
         prevProps.editName === nextProps.editName &&
-        prevProps.isActive === nextProps.isActive
+        prevProps.active === nextProps.active
     );
 }
 
