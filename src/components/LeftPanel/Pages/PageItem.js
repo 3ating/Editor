@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const PageItems = styled.div`
     cursor: pointer;
-    color: ${(props) => (props.active ? '#0274ff' : 'gray')};
+    color: ${(props) => (props.isActive ? '#0274ff' : 'gray')};
 `;
 
 const PageItem = ({
@@ -43,7 +43,7 @@ const PageItem = ({
     );
 
     return (
-        <PageItems onClick={handleClick} active={active} onDoubleClick={handleDoubleClick}>
+        <PageItems onClick={handleClick} isActive={active} onDoubleClick={handleDoubleClick}>
             {editingId === page.id ? (
                 <input
                     value={editName}

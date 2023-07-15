@@ -44,8 +44,4 @@ const ColorPicker = ({ label, color, onChangeColor }) => {
     );
 };
 
-function colorPickerPropsAreEqual(prevProps, nextProps) {
-    return prevProps.color === nextProps.color;
-}
-
 export default React.memo(ColorPicker);

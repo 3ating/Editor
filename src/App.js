@@ -44,7 +44,7 @@ const App = () => {
         [currentPageIndex, pages]
     );
 
-    const elementValue = useMemo(() => ({ elements, selectedElement }), [elements, selectedElement?.id]);
+    const elementValue = useMemo(() => ({ elements, selectedElement }), [elements, selectedElement]);
 
     return (
         <PageContext.Provider value={pageValue}>
