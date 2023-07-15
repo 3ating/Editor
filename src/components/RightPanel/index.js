@@ -23,7 +23,7 @@ const RightPanel = () => {
         );
     }, [currentPageIndex, setPages]);
 
-    const handleElementChange = (prop, value) => {
+    const handleElementChange = (selectedElement, prop, value) => {
         if (selectedElement) {
             setPages((prevPages) =>
                 prevPages.map((page, index) =>
@@ -47,21 +47,21 @@ const RightPanel = () => {
                     <PositionLabel
                         label='X'
                         value={selectedElement.x}
-                        onChange={(e) => handleElementChange('x', parseInt(e.target.value))}
+                        onChange={(e) => handleElementChange(selectedElement, 'x', parseInt(e.target.value))}
                     />
                     <PositionLabel
                         label='Y'
                         value={selectedElement.y}
-                        onChange={(e) => handleElementChange('y', parseInt(e.target.value))}
+                        onChange={(e) => handleElementChange(selectedElement, 'y', parseInt(e.target.value))}
                     />
                     <OpacityControl
                         opacity={selectedElement.o}
-                        onChange={(e) => handleElementChange('o', parseFloat(e.target.value) / 100)}
+                        onChange={(e) => handleElementChange(selectedElement, 'o', parseFloat(e.target.value) / 100)}
                     />
                     <ColorPicker
                         label='B'
                         color={selectedElement.color}
-                        onChangeColor={(color) => handleElementChange('color', color)}
+                        onChangeColor={(color) => handleElementChange(selectedElement, 'color', color)}
                     />
                 </>
             )}

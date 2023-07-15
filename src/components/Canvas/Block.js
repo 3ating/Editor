@@ -16,6 +16,7 @@ const StyledBlock = styled.div`
 const Block = ({ element, active, onDragStart, onClick, onDrag }) => {
     return (
         <StyledBlock
+            data-testid={element.id}
             x={element.x}
             y={element.y}
             width={element.width}
